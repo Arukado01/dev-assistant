@@ -1,20 +1,20 @@
 import config from "./config.js";
+import { askClaude } from "./llm/anthropic-client.js";
 
-function main(): void {
+async function main(): Promise<void> {
     console.log("╔════════════════════════════════════════╗");
     console.log("║        DevAssistant - Curso IA         ║");
+    console.log("║            Primera llamada             ║");
     console.log("╚════════════════════════════════════════╝");
     console.log("");
-    console.log("✅ DevAssistant configurado correctamente");
+    console.log("Enviando pregunta a Claude...");
     console.log("");
-    console.log("📋 Configuración activa:");
-    console.log(`   • Provider:       ${config.provider}`);
-    console.log(`   • Modelo Anthropic: ${config.anthropicModel}`);
-    console.log(`   • Modelo OpenAI:  ${config.openaiModel}`);
-    console.log(`   • Docs path:      ${config.docsPath}`);
-    console.log(`   • RAG top-K:      ${config.ragTopK}`);
-    console.log("");
-    console.log("🚀 Próximo paso: Sección 3 — Primera llamada a Claude API");
+    const question = "¿Qué es Typescript y en qué se diferencia de Javascript?. Responde máximo en 3 puntos concisos";
+    console.log(` Pregunta: ${question}`);
+    const answer = await askClaude(question);
+    console.log("-".repeat(50));
+    console.log(answer);
+    console.log("-".repeat(50));
 }
 
-main();
+main().catch((error: Error ) => console.error(" Error: ", error.message));
