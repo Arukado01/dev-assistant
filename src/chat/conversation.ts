@@ -14,13 +14,15 @@ export class Conversation {
         this.systemPrompt = systemPrompt;
     }
 
-    addUserMessage(text: string): void {
-        this.messages.push({ role: "user", content: text });
-    }
+    addUserMessage = (text: string): void => void this.messages.push({
+        role: "user",
+        content: text
+    });
 
-    addAssistantMessage(text: string): void {
-        this.messages.push({ role: "assistant", content: text });
-    }
+    addAssistantMessage = (text: string): void => void this.messages.push({
+        role: "assistant",
+        content: text
+    });
 
     async send(): Promise<string> {
         const response = await client.messages.create({
@@ -38,5 +40,32 @@ export class Conversation {
         const responseText = textBlock.text;
         this.addAssistantMessage(responseText);
         return responseText;
+    }
+
+    clear(): void {
+        this.messages = [];
+        this.totalInputsTokens = 0;
+        this.totalOutputsTokens = 0;
+        console.log(" Conversación reiniciada");
+    }
+
+    getTurnCount = (): number => Math.floor(this.messages.length / 2);
+
+    estimateCurrentTokens = (): number => {
+        const totalChars = this.messages.reduce((sum, msg) => sum + msg.content.length, 0);
+
+        return Math.floor(totalChars / CHARS_PER_TOKEN);
+    };
+
+    getStats(): { inputTokens: number; outputTokens: number; turns: number } {
+        return {
+            inputTokens: this.totalInputsTokens,
+            outputTokens: this.totalOutputsTokens,
+            turns: this.getTurnCount()
+        }
+    }
+
+    getHistory(): Message[] {
+        return [...this.messages];
     }
 }
