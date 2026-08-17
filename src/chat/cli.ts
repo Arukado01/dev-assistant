@@ -4,7 +4,7 @@ import { DOCUMENTATION_ASSISTANT_PROMPT } from '../llm/prompts.js';
 import { client } from '../llm/anthropic-client.js';
 import config from '../config.js';
 
-export async function starCLI(): Promise<void> {
+export async function startCLI(): Promise<void> {
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
@@ -37,8 +37,8 @@ export async function starCLI(): Promise<void> {
             if (userInput === "/exit" || userInput === "/salida") {
                 const stats = conversation.getStats()
                 console.log(` Resumen: ${stats.turns} turnos ` +
-                    `${stats.inputTokens} tokens de entrada` +
-                    `${stats.outputTokens} tokens de salida`
+                    `${stats.inputTokens} tokens de entrada ` +
+                    `${stats.outputTokens} tokens de salida `
                 );
                 rl.close();
                 return;
