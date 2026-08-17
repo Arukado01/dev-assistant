@@ -1,6 +1,5 @@
-import config from "./config.js";
 import { askClaude } from "./llm/anthropic-client.js";
-import { CODE_REVIEWER_PROMPT, DOCUMENTATION_ASSISTANT_PROMPT } from "./llm/prompts.js";
+import {  DOCUMENTATION_ASSISTANT_PROMPT } from "./llm/prompts.js";
 import { streamClaude } from "./llm/streaming.js";
 
 const QUESTION = `¿Qué es async/await en Javascript?, de manera resumida`;
