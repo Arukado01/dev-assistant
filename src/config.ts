@@ -18,7 +18,7 @@ function validateProvider(provider: string): "anthropic" | "openai" {
 
     if (provider === "anthropic" || provider === "openai") return provider;
 
-    throw new Error(`MODEL_PROVIDER inválido: ${provider}. Debe ser "antrhopic" u "openai"`);
+    throw new Error(`MODEL_PROVIDER inválido: ${provider}. Debe ser "anthropic" u "openai"`);
 
 }
 
