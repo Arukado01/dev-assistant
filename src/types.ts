@@ -36,7 +36,7 @@ export interface RetrievedChunk extends Chunck {
     score: number;
 }
 
-export interface searchResult {
+export interface SearchResult {
     chunk: Chunck;
     score: number;
 }
