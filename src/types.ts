@@ -21,7 +21,7 @@ export interface ToolResult {
     isError: boolean;
 }
 
-export interface Chunck {
+export interface Chunk {
     id: string;
     content: string;
     metadata: {
@@ -32,12 +32,12 @@ export interface Chunck {
     }
 }
 
-export interface RetrievedChunk extends Chunck {
+export interface RetrievedChunk extends Chunk {
     score: number;
 }
 
 export interface SearchResult {
-    chunk: Chunck;
+    chunk: Chunk;
     score: number;
 }
 

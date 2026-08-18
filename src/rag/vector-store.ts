@@ -2,7 +2,7 @@ import Database from "better-sqlite3";
 import * as sqliteVec from 'sqlite-vec';
 import * as path from 'path';
 import * as fs from 'fs';
-import type { Chunck, SearchResult } from '../types.js';
+import type { Chunk, SearchResult } from '../types.js';
 
 interface ChunkRow {
     id: string;
@@ -59,7 +59,7 @@ export class VectorStore {
         `);
     }
 
-    insert(chunk: Chunck, embedding: number[]): void {
+    insert(chunk: Chunk, embedding: number[]): void {
         const insertChunk = this.db.prepare(`
                 INSERT OR REPLACE INTO chunks(id, content, source, heading, position, char_count) VALUES (?,?,?,?,?,?)
             `);

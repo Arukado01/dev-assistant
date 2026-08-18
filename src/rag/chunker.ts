@@ -1,12 +1,12 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import type { Chunck } from '../types.js'
+import type { Chunk } from '../types.js'
 
 const MAX_CHUNK_SIZE = 2000;
 
-export function chunkMarkdown(content: string, filePath: string): Chunck[] {
+export function chunkMarkdown(content: string, filePath: string): Chunk[] {
     const fileName = path.basename(filePath);
-    const chunks: Chunck[] = [];
+    const chunks: Chunk[] = [];
 
     const sections = content.split(/(?=^## )/m);
 
@@ -22,16 +22,16 @@ export function chunkMarkdown(content: string, filePath: string): Chunck[] {
         const heading = isHeading ? firstLine.trim() : "(Introducción)";
 
         if (section.length <= MAX_CHUNK_SIZE) {
-            const chunckContent = lastParagraph ? `${lastParagraph}\n\n${section.trim()}` : section.trim();
+            const chunkContent = lastParagraph ? `${lastParagraph}\n\n${section.trim()}` : section.trim();
 
             chunks.push({
                 id: `${fileName}-${globalPosition}`,
-                content: chunckContent,
+                content: chunkContent,
                 metadata: {
                     source: fileName,
                     heading,
                     position: globalPosition,
-                    charCount: chunckContent.length,
+                    charCount: chunkContent.length,
                 },
             });
 
@@ -48,20 +48,20 @@ export function chunkMarkdown(content: string, filePath: string): Chunck[] {
             const paragraph = paragraphs[index] ?? "";
 
             if (currentChunk.length > 0 && currentChunk.length + paragraph.length > MAX_CHUNK_SIZE) {
-                const chunckContent = isHeading ? `${heading}\n\n${currentChunk.trim()}` : currentChunk.trim();
+                const chunkContent = isHeading ? `${heading}\n\n${currentChunk.trim()}` : currentChunk.trim();
                 chunks.push({
                     id: `${fileName}-${globalPosition}`,
-                    content: chunckContent,
+                    content: chunkContent,
                     metadata: {
                         source: fileName,
                         heading,
                         position: globalPosition,
-                        charCount: chunckContent.length,
+                        charCount: chunkContent.length,
                     },
                 });
 
-                const chunckParagraphs = currentChunk.trim().split(/\n\n+/);
-                lastParagraph = chunckParagraphs[chunckParagraphs.length - 1] ?? "";
+                const chunkParagraphs = currentChunk.trim().split(/\n\n+/);
+                lastParagraph = chunkParagraphs[chunkParagraphs.length - 1] ?? "";
                 currentChunk = `${lastParagraph}\n\n`;
                 globalPosition++;
             }
@@ -70,15 +70,15 @@ export function chunkMarkdown(content: string, filePath: string): Chunck[] {
         }
 
         if (currentChunk.trim().length > 0) {
-            const chunckContent = isHeading ? `${heading}\n\n${currentChunk.trim()}` : currentChunk.trim();
+            const chunkContent = isHeading ? `${heading}\n\n${currentChunk.trim()}` : currentChunk.trim();
             chunks.push({
                 id: `${fileName}-${globalPosition}`,
-                content: chunckContent,
+                content: chunkContent,
                 metadata: {
                     source: fileName,
                     heading,
                     position: globalPosition,
-                    charCount: chunckContent.length,
+                    charCount: chunkContent.length,
                 },
             });
 
@@ -91,8 +91,8 @@ export function chunkMarkdown(content: string, filePath: string): Chunck[] {
     return chunks;
 }
 
-export async function processDirectory(dirPath: string): Promise<Chunck[]> {
-    const allChunks: Chunck[] = [];
+export async function processDirectory(dirPath: string): Promise<Chunk[]> {
+    const allChunks: Chunk[] = [];
     let entries;
 
     try {
