@@ -15,7 +15,7 @@ export async function generateEmbedding(text: string): Promise<number[]> {
     return embedding;
 }
 
-export async function generateEmbeddings(texts: string): Promise<number[][]> {
+export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
     const response = await openaiClient.embeddings.create({
         model: config.openaiEmbeddingModel,
         input: texts,
